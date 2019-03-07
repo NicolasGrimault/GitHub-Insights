@@ -1,4 +1,4 @@
-const githubToken = "f9d6ff46c649600ce86c63923e87adfc76dae78a"
+const githubToken = ""
 var request = require('request');
 
 var options = {
