@@ -17,12 +17,14 @@ https://developer.github.com/v4/
 
 ## Dependencies
 
-this project is using apollo-fetch:
+this project is using apollo-fetch and express:
 
 ```
-NPM install apollo-fetch
+NPM install apollo-fetch express
 ```
 https://www.npmjs.com/package/apollo-fetch
+
+https://www.npmjs.com/package/express
 
 
 ## Retrieve info
