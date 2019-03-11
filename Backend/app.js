@@ -1,20 +1,16 @@
 const githubToken = ""
-var request = require('request');
+const githubApi = "https://api.github.com/graphql"
+const { createApolloFetch } = require('apollo-fetch');
 
-var options = {
-  uri: 'https://api.github.com/graphql?access_token='+githubToken,
-  method: 'POST',
-  json: {
-    "query": "query { viewer { login }}"
-  },
+const fetch = createApolloFetch({
+  uri: githubApi + '?access_token=' + githubToken,
   headers: {
     'User-Agent': 'Github-Insights'
   }
-};
+});
 
-request(options, function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    console.log(body.id)
-  }
-  console.log(response.body)
+fetch({
+  query: '{ viewer { login }}',
+}).then(res => {
+  console.log(res.data);
 });

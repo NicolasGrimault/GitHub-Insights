@@ -17,9 +17,9 @@ https://developer.github.com/v4/
 
 ## Dependencies
 
-this project is using request:
+this project is using apollo-fetch:
 
 ```
-NPM install request
+NPM install apollo-fetch
 ```
-https://www.npmjs.com/package/request
+https://www.npmjs.com/package/apollo-fetch
