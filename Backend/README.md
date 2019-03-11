@@ -23,3 +23,25 @@ this project is using apollo-fetch:
 NPM install apollo-fetch
 ```
 https://www.npmjs.com/package/apollo-fetch
+
+
+## Retrieve info
+
+- Company
+- People
+- Top languages
+- Top topics
+- Number of repositories
+- Number of commit
+- Number of stars
+- Number of issues
+- Repo with most stars
+- Repo with most branchs
+- Repo with most commits
+- Repo with most pull-requests
+- Repo with most issues
+- Repo with most releases
+- Repo with most contributors
+- oldest Repo
+- latest Repo
+- Most actif contributor (number of commits)
