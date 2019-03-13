@@ -13,23 +13,30 @@ const fetch = createApolloFetch({
 });
 
 app.get('/organization/:id', async function (req, response) {
-  var results = await fetch({ query: GetRequest(req.params.id), })
-      .then(res => res.data );
+
+
+  results = await getResultsAsync(req.params.id)
   response.send(results)
 })
 
 app.listen(port)
 
 
-function GetRequest(orgaName) {
+const getResultsAsync = async (orgaName) => {
+  var repositories = []
   var cursor = ""
-  return `
+  var hasNextPage = true
+  while (hasNextPage) {
+    var requ = `
   {
     viewer {
       organization(login: "${orgaName}") {
         repositories(first: 100, after: "${cursor}") {
+          pageInfo {
+            endCursor
+            hasNextPage
+          }
           edges {
-            cursor
             node {
               name
               primaryLanguage {
@@ -68,5 +75,14 @@ function GetRequest(orgaName) {
     }
   }
   `
+    const results = await fetch({ query: requ, })
+      .then(res => res.data);
+    results.viewer.organization.repositories.edges.forEach(element => {
+      repositories.push(element)
+    });
+    hasNextPage = results.viewer.organization.repositories.pageInfo.hasNextPage
+    cursor = results.viewer.organization.repositories.pageInfo.endCursor
+  }
+  return repositories
 }
 
