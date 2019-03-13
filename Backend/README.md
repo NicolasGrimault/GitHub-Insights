@@ -29,7 +29,7 @@ https://www.npmjs.com/package/express
 
 ## Retrieve info
 
-- Company
+- Organization
 - People
 - Top languages
 - Top topics
