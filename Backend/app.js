@@ -13,11 +13,9 @@ const fetch = createApolloFetch({
 });
 
 app.get('/organization/:id', async function (req, response) {
-
-
-  results = await getResultsAsync(req.params.id)
-  formatData(results)
   response.header("Access-Control-Allow-Origin", "*")
+  results = await getResultsAsync(req.params.id)
+  console.log(results)
   response.send(results)
 })
 
@@ -25,13 +23,13 @@ app.listen(port)
 
 
 function formatData(repositories) {
-  var results = []
+  var results = {}
   results['Commits'] = 0
   results['Stars'] = 0
   results['Watchers'] = 0
   results['Issues'] = 0
-  results['Languages'] = []
-  results['Topics'] = []
+  results['Languages'] = {}
+  results['Topics'] = {}
   results['MostStarsName'] = ""
   results['MostStars'] = 0
   results['MostWatchersName'] = ""
@@ -80,30 +78,30 @@ function formatData(repositories) {
       results['MostCommits'] = repo.node.defaultBranchRef.target.history.totalCount
       results['MostCommitsName'] = repo.node.name
     }
-    if ( repo.node.issues.totalCount >= results['MostIssues']) {
-      results['MostIssues'] =  repo.node.issues.totalCount
+    if (repo.node.issues.totalCount >= results['MostIssues']) {
+      results['MostIssues'] = repo.node.issues.totalCount
       results['MostIssuesName'] = repo.node.name
     }
-    if ( repo.node.releases.totalCount >= results['MostReleases']) {
-      results['MostReleases'] =  repo.node.releases.totalCount
+    if (repo.node.releases.totalCount >= results['MostReleases']) {
+      results['MostReleases'] = repo.node.releases.totalCount
       results['MostReleasesName'] = repo.node.name
     }
-    if ( repo.node.collaborators.totalCount >= results['MostCollaborators']) {
-      results['MostCollaborators'] =  repo.node.collaborators.totalCount
+    if (repo.node.collaborators.totalCount >= results['MostCollaborators']) {
+      results['MostCollaborators'] = repo.node.collaborators.totalCount
       results['MostCollaboratorsName'] = repo.node.name
     }
-    if ( Date.parse(repo.node.createdAt) <= results['OldestRepo']) {
-      results['OldestRepo'] =  Date.parse(repo.node.createdAt)
+    if (Date.parse(repo.node.createdAt) <= results['OldestRepo']) {
+      results['OldestRepo'] = Date.parse(repo.node.createdAt)
       results['OldestRepoName'] = repo.node.name
     }
-    if ( Date.parse(repo.node.createdAt) >= results['LatestRepo']) {
-      results['LatestRepo'] =  Date.parse(repo.node.createdAt)
+    if (Date.parse(repo.node.createdAt) >= results['LatestRepo']) {
+      results['LatestRepo'] = Date.parse(repo.node.createdAt)
       results['LatestRepoName'] = repo.node.name
     }
   });
-  console.log(results)
   return results;
 }
+
 const getResultsAsync = async (orgaName) => {
   var repositories = []
   var cursor = ""
@@ -179,8 +177,8 @@ const getResultsAsync = async (orgaName) => {
       console.log("An error happened")
       return "An error happened"
     }
-
   }
-  return repositories
+  var res = formatData(repositories)
+  return res
 }
 
