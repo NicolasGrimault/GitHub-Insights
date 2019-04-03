@@ -17,6 +17,7 @@ app.get('/organization/:id', async function (req, response) {
 
   results = await getResultsAsync(req.params.id)
   formatData(results)
+  response.header("Access-Control-Allow-Origin", "*")
   response.send(results)
 })
 
@@ -39,6 +40,14 @@ function formatData(repositories) {
   results['MostCommits'] = 0
   results['MostIssuesName'] = ""
   results['MostIssues'] = 0
+  results['MostReleasesName'] = ""
+  results['MostReleases'] = 0
+  results['MostCollaboratorsName'] = ""
+  results['MostCollaborators'] = 0
+  results['OldestRepoName'] = ""
+  results['OldestRepo'] = new Date(8640000000000000)
+  results['LatestRepoName'] = ""
+  results['LatestRepo'] = new Date(-8640000000000000)
   repositories.forEach(repo => {
 
     results['Stars'] += repo.node.stargazers.totalCount
@@ -75,6 +84,22 @@ function formatData(repositories) {
       results['MostIssues'] =  repo.node.issues.totalCount
       results['MostIssuesName'] = repo.node.name
     }
+    if ( repo.node.releases.totalCount >= results['MostReleases']) {
+      results['MostReleases'] =  repo.node.releases.totalCount
+      results['MostReleasesName'] = repo.node.name
+    }
+    if ( repo.node.collaborators.totalCount >= results['MostCollaborators']) {
+      results['MostCollaborators'] =  repo.node.collaborators.totalCount
+      results['MostCollaboratorsName'] = repo.node.name
+    }
+    if ( Date.parse(repo.node.createdAt) <= results['OldestRepo']) {
+      results['OldestRepo'] =  Date.parse(repo.node.createdAt)
+      results['OldestRepoName'] = repo.node.name
+    }
+    if ( Date.parse(repo.node.createdAt) >= results['LatestRepo']) {
+      results['LatestRepo'] =  Date.parse(repo.node.createdAt)
+      results['LatestRepoName'] = repo.node.name
+    }
   });
   console.log(results)
   return results;
@@ -105,6 +130,13 @@ const getResultsAsync = async (orgaName) => {
               stargazers {
                 totalCount
               }
+              releases{
+                totalCount
+              }
+              collaborators{
+                totalCount
+              }
+              createdAt
               repositoryTopics(first: 100) {
                 nodes {
                   topic {
