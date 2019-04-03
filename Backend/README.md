@@ -17,9 +17,33 @@ https://developer.github.com/v4/
 
 ## Dependencies
 
-this project is using request:
+this project is using apollo-fetch and express:
 
 ```
-NPM install request
+NPM install apollo-fetch express
 ```
-https://www.npmjs.com/package/request
+https://www.npmjs.com/package/apollo-fetch
+
+https://www.npmjs.com/package/express
+
+
+## Retrieve info
+
+- Organization
+- People
+- Top languages
+- Top topics
+- Number of repositories
+- Number of commit
+- Number of stars
+- Number of issues
+- Repo with most stars
+- Repo with most branchs
+- Repo with most commits
+- Repo with most pull-requests
+- Repo with most issues
+- Repo with most releases
+- Repo with most contributors
+- oldest Repo
+- latest Repo
+- Most actif contributor (number of commits)
