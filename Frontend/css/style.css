@@ -46,3 +46,15 @@
             margin-bottom: 0.5em;
             padding: 1em;
         }
+    /*canevas*/
+        .pieChart{
+            width: 800px;
+            height: 450px;
+        }
+
+    /* image */
+        .images{
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
