@@ -6,20 +6,26 @@
     function getText(){
         document.body.innerHTML +='<img id="ImageLoading" class="images" src="https://zsdevcdnpr1.azureedge.net/online/v1/content/images/loader.gif"/>';
         var request = new XMLHttpRequest();
-        request.open('GET', 'https://httpbin.org/get', true);
+        request.open("GET", 'http://localhost:4300/organization/ngr-organization', true);
         request.onload = function () {
             document.body.removeChild(document.getElementById('ImageLoading'));
             var data = JSON.parse(this.response);
-            
+            console.log(data);
+            /*
             getBanner();
             getUsers();
             getFolder();
             getCommit();
             getLangage();
             getTopics();
-            getFolderState();
+            getFolderState();*/
         }
         request.send();
+        if (request.status === 200) {
+            console.log("Réponse reçue: %s", request.responseText);
+        } else {
+            console.log("Status de la réponse: %d (%s)", request.status, request.statusText);
+        }
     };
 
 //--------------------Banner--------------------
