@@ -82,6 +82,7 @@
       "resolved": "https://registry.npmjs.org/delayed-stream/-/delayed-stream-1.0.0.tgz",
       "version": "1.0.0"
     },
+    "dotenv": "^7.0.0",
     "express": "^4.16.4",
     "form-data": {
       "integrity": "sha512-1lLKB2Mu3aGP1Q/2eCOx0fNbRMe7XdwktwOruhfqqd0rIJWwN4Dh+E3hrPSlDCXnSR7UtZ1N38rVXm+6+MEhJQ==",

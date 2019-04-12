@@ -1,8 +1,9 @@
 const request = require('request');
 const express = require('express')
+require('dotenv').config();
 
-const clientId = 'df26091268bce90e6f1e'
-const clientSecret = '54a9e22f48fed4ebf0c253499e0ea5713fa52b1e'
+const clientId = process.env.CLIENTID
+const clientSecret = process.env.CLIENTSECRET
 
 const app = express()
 
