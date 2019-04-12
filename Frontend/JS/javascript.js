@@ -6,7 +6,8 @@
     function getText(){
         document.body.innerHTML +='<img id="ImageLoading" class="images" src="https://zsdevcdnpr1.azureedge.net/online/v1/content/images/loader.gif"/>';
         var request = new XMLHttpRequest();
-        request.open("GET", 'http://localhost:4300/organization/ngr-organization', true);
+        var token = getUrlParam("token","")
+        request.open("GET", `http://localhost:4300/organization/ngr-organization/${token}`, true);
         request.onload = function () {
             document.body.removeChild(document.getElementById('ImageLoading'));
             var data = JSON.parse(this.response);
@@ -134,3 +135,18 @@ function getFolderState(){
     var text = "Folder state : TEST TEST TEST"
     createDiv("FolderState", text);
 };
+
+function getUrlParam(parameter, defaultvalue){
+    var urlparameter = defaultvalue;
+    if(window.location.href.indexOf(parameter) > -1){
+        urlparameter = getUrlVars()[parameter];
+        }
+    return urlparameter;
+}
+function getUrlVars() {
+    var vars = {};
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+        vars[key] = value;
+    });
+    return vars;
+}

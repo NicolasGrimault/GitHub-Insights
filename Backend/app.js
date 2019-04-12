@@ -1,26 +1,108 @@
-const githubToken = ""
 const githubApi = "https://api.github.com/graphql"
 const { createApolloFetch } = require('apollo-fetch');
 const express = require('express');
+
 const app = express();
 const port = 4300;
 
-const fetch = createApolloFetch({
-  uri: githubApi + '?access_token=' + githubToken,
-  headers: {
-    'User-Agent': 'Github-Insights'
-  }
-});
-
-app.get('/organization/:id', async function (req, response) {
+app.get('/organization/:id/:token', async function (req, response) {
   response.header("Access-Control-Allow-Origin", "*")
-  results = await getResultsAsync(req.params.id)
-  console.log(results)
+  results = await getResultsAsync(req.params.id,req.params.token)
   response.send(results)
 })
 
 app.listen(port)
 
+
+const getResultsAsync = async (orgaName,token) => {
+  var repositories = []
+  var cursor = ""
+  var hasNextPage = true
+  while (hasNextPage) {
+    var requ = `
+  {
+    viewer {
+      organization(login: "${orgaName}") {
+        repositories(first: 100, after: "${cursor}") {
+          pageInfo {
+            endCursor
+            hasNextPage
+          }
+          edges {
+            node {
+              name
+              primaryLanguage {
+                name
+              }
+              watchers {
+                totalCount
+              }
+              stargazers {
+                totalCount
+              }
+              releases{
+                totalCount
+              }
+              collaborators{
+                totalCount
+              }
+              createdAt
+              repositoryTopics(first: 100) {
+                nodes {
+                  topic {
+                    name
+                  }
+                }
+              }
+              defaultBranchRef {
+                name
+                target {
+                  ... on Commit {
+                    history {
+                      totalCount
+                    }
+                  }
+                }
+              }
+              issues {
+                totalCount
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  `
+    try {
+      var fetch = CreateApolloFetch(token)
+      const results = await fetch({ query: requ, })
+        .then(res => res.data);
+
+      results.viewer.organization.repositories.edges.forEach(element => {
+        repositories.push(element)
+      });
+
+      hasNextPage = results.viewer.organization.repositories.pageInfo.hasNextPage
+      cursor = results.viewer.organization.repositories.pageInfo.endCursor
+
+    } catch (error) {
+      console.log("An error happened")
+      return "An error happened"
+    }
+  }
+  var res = formatData(repositories)
+  return res
+}
+
+function CreateApolloFetch(token){
+  return createApolloFetch({
+    uri: githubApi + '?access_token=' + token,
+    headers: {
+      'User-Agent': 'Github-Insights'
+    }
+  });
+}
 
 function formatData(repositories) {
   var results = {}
@@ -101,84 +183,3 @@ function formatData(repositories) {
   });
   return results;
 }
-
-const getResultsAsync = async (orgaName) => {
-  var repositories = []
-  var cursor = ""
-  var hasNextPage = true
-  while (hasNextPage) {
-    var requ = `
-  {
-    viewer {
-      organization(login: "${orgaName}") {
-        repositories(first: 100, after: "${cursor}") {
-          pageInfo {
-            endCursor
-            hasNextPage
-          }
-          edges {
-            node {
-              name
-              primaryLanguage {
-                name
-              }
-              watchers {
-                totalCount
-              }
-              stargazers {
-                totalCount
-              }
-              releases{
-                totalCount
-              }
-              collaborators{
-                totalCount
-              }
-              createdAt
-              repositoryTopics(first: 100) {
-                nodes {
-                  topic {
-                    name
-                  }
-                }
-              }
-              defaultBranchRef {
-                name
-                target {
-                  ... on Commit {
-                    history {
-                      totalCount
-                    }
-                  }
-                }
-              }
-              issues {
-                totalCount
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-  `
-    try {
-      const results = await fetch({ query: requ, })
-        .then(res => res.data);
-
-      results.viewer.organization.repositories.edges.forEach(element => {
-        repositories.push(element)
-      });
-
-      hasNextPage = results.viewer.organization.repositories.pageInfo.hasNextPage
-      cursor = results.viewer.organization.repositories.pageInfo.endCursor
-
-    } catch (error) {
-      console.log("An error happened")
-      return "An error happened"
-    }
-  }
-  var res = formatData(repositories)
-  return res
-}
-

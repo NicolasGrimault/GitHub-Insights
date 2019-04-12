@@ -21,7 +21,7 @@ app.get('/callback', function (req, response) {
 })
 
 app.get('/login', function (req, response) {
-  response.redirect(`https://github.com/login/oauth/authorize?client_id=${clientId}`)
+  response.redirect(`https://github.com/login/oauth/authorize?client_id=${clientId}&scope=repo,read:user,read:org`)
 })
 
 app.use(express.static(__dirname + '/public'))
