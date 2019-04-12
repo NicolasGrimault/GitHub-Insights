@@ -20,6 +20,10 @@ app.get('/callback', function (req, response) {
   })
 })
 
+app.get('/login', function (req, response) {
+  response.redirect(`https://github.com/login/oauth/authorize?client_id=${clientId}`)
+})
+
 app.use(express.static(__dirname + '/public'))
 
 app.listen(8080)
