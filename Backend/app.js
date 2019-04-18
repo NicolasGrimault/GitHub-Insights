@@ -3,7 +3,7 @@ const { createApolloFetch } = require('apollo-fetch');
 const express = require('express');
 
 const app = express();
-const port = 4300;
+const port = 8080;
 
 app.get('/organization/:id/:token', async function (req, response) {
   response.header("Access-Control-Allow-Origin", "*")
