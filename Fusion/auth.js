@@ -16,7 +16,7 @@ app.get('/callback', function (req, response) {
   request(options, function (error, gitResponse, body) {
     if (!error && gitResponse.statusCode == 200) {
       response.cookie('token',JSON.parse(body).access_token)
-      response.redirect('http://localhost:8080/')
+      response.redirect('/')
     }
   })
 })
