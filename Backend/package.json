@@ -1,0 +1,29 @@
+{
+  "name": "github-insights-back",
+  "description": "backend of the github stats analysis",
+  "version": "0.0.1",
+  "private": true,
+  "license": "Apache-2.0",
+  "author": "Nicolas Grimault",
+  "repository": 
+  {
+    "type": "git",
+    "url": "https://github.com/ngr-organization/GitHub-Insights.git"
+  },
+  "engines": 
+  {
+    "node": ">=8"
+  },
+  "scripts": 
+  {
+    "deploy": "gcloud app deploy",
+    "start": "node app.js"
+  },
+  "dependencies": 
+  {
+    "express": "4.16.4",
+    "request": "2.88.0",
+    "dotenv": "7.0.0",
+    "apollo-fetch": "0.7.0"
+  }
+}
