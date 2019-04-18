@@ -1,0 +1,26 @@
+{
+  "name": "github-insights-front",
+  "description": "Auth and frontend of the github stats analysis",
+  "version": "0.0.1",
+  "private": true,
+  "license": "Apache-2.0",
+  "author": "Nicolas Grimault",
+  "repository": 
+  {
+    "type": "git",
+    "url": "https://github.com/ngr-organization/GitHub-Insights.git"
+  },
+  "engines": 
+  {
+    "node": ">=8"
+  },
+  "scripts": 
+  {
+    "deploy": "gcloud app deploy",
+    "start": "node auth.js",
+  },
+  "dependencies": 
+  {
+    "express": "4.16.4"
+  },
+}
