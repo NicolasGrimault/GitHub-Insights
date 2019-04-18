@@ -12,14 +12,14 @@
             document.body.removeChild(document.getElementById('ImageLoading'));
             var data = JSON.parse(this.response);
             console.log(data);
-            /*
+            
             getBanner();
             getUsers();
             getFolder();
             getCommit();
             getLangage();
             getTopics();
-            getFolderState();*/
+            getFolderState();
         }
         request.send();
         if (request.status === 200) {
