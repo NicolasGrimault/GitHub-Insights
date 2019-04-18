@@ -7,7 +7,7 @@
         document.body.innerHTML +='<img id="ImageLoading" class="images" src="https://zsdevcdnpr1.azureedge.net/online/v1/content/images/loader.gif"/>';
         var request = new XMLHttpRequest();
         var token = getCookie("token")
-        request.open("GET", `http://localhost:4300/organization/ngr-organization/${token}`, true);
+        request.open("GET", `https://service-back-dot-cloud-github.appspot.com/organization/ngr-organization/${token}`, true);
         request.onload = function () {
             document.body.removeChild(document.getElementById('ImageLoading'));
             var data = JSON.parse(this.response);
