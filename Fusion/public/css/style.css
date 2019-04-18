@@ -1,0 +1,60 @@
+/* Header */
+
+    .disconnect {
+        text-decoration: none;
+        border-bottom-color: transparent;
+        color: #ff0000;
+        text-align: right;
+    }
+    
+    .disconnect:hover {
+        text-decoration: none;
+        border-bottom-color: transparent;
+        color: #800000;
+        text-align: right;
+    }
+
+    .banner {
+        background-attachment: scroll,	fixed;
+        background-color: #494d53;
+        background-image: url("images/overlay.png"), url("../images/banner.jpg");
+        background-position: top left, center center;
+        background-repeat: repeat,	no-repeat;
+        background-size: auto,	cover;
+        color: #d1d2d4;
+        padding: 3em 0;
+        position: relative;
+        text-align: center;
+        font-size: 30px;
+    }
+
+/* Body */
+    /* DIV */
+    	.wrapper:nth-child(odd) {
+            padding: 1em 0 1em 0;
+            background: #f2f2f2;
+        }
+
+        .wrapper:nth-child(even) {
+            padding: 1em 0 1em 0;
+            background: #e1e1e1;
+        }
+        
+        .container {
+            position: relative;
+            border-radius: 0.5em;
+            margin-bottom: 0.5em;
+            padding: 1em;
+        }
+    /*canevas*/
+        .pieChart{
+            width: 800px;
+            height: 450px;
+        }
+
+    /* image */
+        .images{
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
