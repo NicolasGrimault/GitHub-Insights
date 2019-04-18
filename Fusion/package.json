@@ -17,7 +17,7 @@
   "scripts": 
   {
     "deploy": "gcloud app deploy",
-    "start": "node auth.js",
+    "start": "node auth.js"
   },
   "dependencies": 
   {
