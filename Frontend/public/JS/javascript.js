@@ -6,20 +6,20 @@
     function getText(){
         document.body.innerHTML +='<img id="ImageLoading" class="images" src="https://zsdevcdnpr1.azureedge.net/online/v1/content/images/loader.gif"/>';
         var request = new XMLHttpRequest();
-        var token = getUrlParam("token","")
+        var token = getCookie("token")
         request.open("GET", `http://localhost:4300/organization/ngr-organization/${token}`, true);
         request.onload = function () {
             document.body.removeChild(document.getElementById('ImageLoading'));
             var data = JSON.parse(this.response);
             console.log(data);
-            /*
+            
             getBanner();
             getUsers();
             getFolder();
             getCommit();
             getLangage();
             getTopics();
-            getFolderState();*/
+            getFolderState();
         }
         request.send();
         if (request.status === 200) {
@@ -136,17 +136,9 @@ function getFolderState(){
     createDiv("FolderState", text);
 };
 
-function getUrlParam(parameter, defaultvalue){
-    var urlparameter = defaultvalue;
-    if(window.location.href.indexOf(parameter) > -1){
-        urlparameter = getUrlVars()[parameter];
-        }
-    return urlparameter;
-}
-function getUrlVars() {
-    var vars = {};
-    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
-        vars[key] = value;
-    });
-    return vars;
-}
+
+function getCookie(name) {
+    var value = "; " + document.cookie;
+    var parts = value.split("; " + name + "=");
+    if (parts.length == 2) return parts.pop().split(";").shift();
+  }
