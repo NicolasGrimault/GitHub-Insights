@@ -1,4 +1,0 @@
-runtime: nodejs10
-env_variables:
-  CLIENTID : "df26091268bce90e6f1e"
-  CLIENTSECRET : "54a9e22f48fed4ebf0c253499e0ea5713fa52b1e"
