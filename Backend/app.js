@@ -11,8 +11,40 @@ app.get('/organization/:id/:token', async function (req, response) {
   response.send(results)
 })
 
+app.get('/organizations/:token', async function (req, response) {
+  response.header("Access-Control-Allow-Origin", "*")
+  results = await getOrgaAsync(req.params.token)
+  response.send(results)
+})
+
 app.listen(port)
 
+const getOrgaAsync = async (token)=>{
+  var requ =
+   `{
+    viewer {
+     organizations(first:100){
+      edges{
+        node {
+          name
+        }
+      }
+     }
+    }
+  }`
+  try {
+    var fetch = CreateApolloFetch(token)
+    const results = await fetch({ query: requ, })
+    .then(res => res.data);
+    return results.viewer.organizations.edges.map(function(e){
+      return e.node.name
+    });
+    }
+    catch(error){
+      console.log("An error happened")
+      return "An error happened"
+    }
+}
 
 const getResultsAsync = async (orgaName,token) => {
   var repositories = []
