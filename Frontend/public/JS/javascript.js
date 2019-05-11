@@ -1,59 +1,69 @@
 
-    function disconnect(){
-        alert("Appel de l'api de déconnection");
-    }
+function disconnect() {
+    alert("Appel de l'api de déconnection");
+}
 
-    function getContentOrganisationSelection(){
-        var token = getCookie("token")
-        var request = new XMLHttpRequest();
-        request.open("GET", `http://localhost:8080/organizations/${token}`, true);
-        request.onload = function () {
-            var data = JSON.parse(this.response);        
-            var select = document.getElementById("organisation-select");
-            for(index in data) {
-                select.options[select.options.length] = new Option(data[index], index);
-            }
-        }
-        request.send();
-    }
-
-    function computeStats(){
-        document.body.innerHTML +='<img id="ImageLoading" class="images" src="https://zsdevcdnpr1.azureedge.net/online/v1/content/images/loader.gif"/>';
-        var request = new XMLHttpRequest();
-        var token = getCookie("token")
+function getContentOrganisationSelection() {
+    var token = getCookie("token")
+    var request = new XMLHttpRequest();
+    request.open("GET", `http://localhost:8080/organizations/${token}`, true);
+    request.onload = function () {
+        var data = JSON.parse(this.response);
         var select = document.getElementById("organisation-select");
-        var currentValue = select.options[select.selectedIndex].text;
-        request.open("GET", `https://service-back-dot-cloud-github.appspot.com/organization/${currentValue}/${token}`, true);
-        request.onload = function () {
-            document.body.removeChild(document.getElementById('ImageLoading'));
-            var data = JSON.parse(this.response);
-            console.log(data);
-            
-            getBanner();
-            getUsers();
-            getFolder();
-            getCommit();
-            getLangage();
-            getTopics();
-            getFolderState();
+        for (index in data) {
+            select.options[select.options.length] = new Option(data[index], index);
         }
-        request.send();
-        if (request.status === 200) {
-            console.log("Réponse reçue: %s", request.responseText);
-        } else {
-            console.log("Status de la réponse: %d (%s)", request.status, request.statusText);
-        }
-    };
+    }
+    request.send();
+}
+
+function computeStats() {
+    document.body.innerHTML += '<img id="ImageLoading" class="images" src="https://zsdevcdnpr1.azureedge.net/online/v1/content/images/loader.gif"/>';
+    var request = new XMLHttpRequest();
+    var token = getCookie("token")
+    var currentValue = getOrganisationName();
+    console.log(currentValue);
+    request.open("GET", `https://service-back-dot-cloud-github.appspot.com/organization/${currentValue}/${token}`, true);
+    request.onload = function () {
+        document.body.removeChild(document.getElementById('ImageLoading'));
+        var data = JSON.parse(this.response);
+        console.log(data);
+
+        getBanner();
+        getlatestRepoDiv(data);
+        getUsers();
+        getFolder();
+        getMostCommitDiv(data);
+        getMostCollaboratorDiv(data);
+        getStarsDiv(data)
+        getLangage();
+        getTopics();
+        getFolderState();
+    }
+    request.send();
+    if (request.status === 200) {
+        console.log("Réponse reçue: %s", request.responseText);
+    } else {
+        console.log("Status de la réponse: %d (%s)", request.status, request.statusText);
+    }
+};
+
+function getOrganisationName(){
+    var select = document.getElementById("organisation-select");
+    return select.options[select.selectedIndex].text;
+}
 
 //--------------------Banner--------------------
-    function getBanner(){
-        var banner = document.getElementById("banner");
-        banner.innerHTML = "MON TITRE";
-    };
+function getBanner() {
+    var banner = document.getElementById("banner");
+    var select = document.getElementById("organisation-select");
+    var currentValue = select.options[select.selectedIndex].text;
+    banner.innerHTML = currentValue;
+};
 
 
 //--------------------DIV--------------------
-function createDiv(NomID, text){
+function createDiv(NomID, text) {
     var div = document.createElement("div");
     var div2 = document.createElement("div");
     div.className = "wrapper";
@@ -66,42 +76,50 @@ function createDiv(NomID, text){
 
 
 //--------------------User--------------------
-function getUsers(){
-    
-
-    
+function getUsers() {
     var text = "User : TEST TEST TEST"
     createDiv("User", text);
 };
 
 
 //--------------------Folder--------------------
-function getFolder(){
+function getFolder() {
     //get Folder by API
     var text = "Folder : TEST TEST TEST"
     createDiv("Folder", text);
 };
 
-
-//--------------------Commit--------------------
-function getCommit(){
-    //get Commit by API
-    var text = "Commit : TEST TEST TEST"
-    createDiv("Commit", text);
+function getlatestRepoDiv(data) {
+    var d = new Date(data.LatestRepo);
+    var today = new Date();
+    var diff = Math.floor((Date.UTC(today.getFullYear(), today.getMonth(), today.getDate()) - Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) ) /(1000 * 60 * 60 * 24));
+    createDiv("latest repo", `So how goes "${data.LatestRepoName}" your latest project? It's been ${diff} days already`);
 };
 
 
+function getMostCommitDiv(data) {
+    createDiv("MostCommit", `"${data.MostCommitsName}" is your biggest repository with ${data.MostCommits} commits`);
+};
+
+function getStarsDiv(data) {
+    createDiv("Stars", `${getOrganisationName()} has a total of ${data.Stars}. I bet you are ready to start your space conquest.`);
+};
+
+function getMostCollaboratorDiv(data) {
+    createDiv("Most-Collaborator", `Wich repository as the most collaborators?<BR> It's ${data.MostCollaboratorsName} with a total of ${data.MostCollaborators} collaborators. That's quite amazing!`);
+};
+
 //--------------------Langage--------------------
-function getLangage(){
+function getLangage() {
     //Appel API pour récupéré les noms des langage ainsi que leur % d'utilisation
 
     var tabLabel = ["January", "February", "March", "April", "May", "June", "July"];
     var tabData = [1, 10, 5, 2, 20, 30, 25];
 
     document.body.innerHTML += '<div class="container">Langage : <canvas id="pieChart" style="width:800px; height:450px;" ></canvas></div>';
-    
+
     var ctx = document.getElementById('pieChart').getContext('2d');
-    var myPieChart = new Chart(ctx,{
+    var myPieChart = new Chart(ctx, {
         type: 'pie',
         data: {
             labels: tabLabel,
@@ -138,7 +156,7 @@ function getLangage(){
 
 
 //--------------------Topics--------------------
-function getTopics(){
+function getTopics() {
     //get Topics by API
     var text = "Topics : TEST TEST TEST"
     createDiv("Topics", text);
@@ -146,7 +164,7 @@ function getTopics(){
 
 
 //--------------------FolderState--------------------
-function getFolderState(){
+function getFolderState() {
     //get Folder state by API
     var text = "Folder state : TEST TEST TEST"
     createDiv("FolderState", text);
@@ -157,4 +175,4 @@ function getCookie(name) {
     var value = "; " + document.cookie;
     var parts = value.split("; " + name + "=");
     if (parts.length == 2) return parts.pop().split(";").shift();
-  }
+}
