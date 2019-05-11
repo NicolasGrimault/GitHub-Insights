@@ -6,7 +6,7 @@ function disconnect() {
 function getContentOrganisationSelection() {
     var token = getCookie("token")
     var request = new XMLHttpRequest();
-    request.open("GET", `http://localhost:8080/organizations/${token}`, true);
+    request.open("GET", `https://service-back-dot-cloud-github.appspot.com/organizations/${token}`, true);
     request.onload = function () {
         var data = JSON.parse(this.response);
         var select = document.getElementById("organisation-select");
