@@ -3,11 +3,27 @@
         alert("Appel de l'api de déconnection");
     }
 
-    function getText(){
+    function getContentOrganisationSelection(){
+        var token = getCookie("token")
+        var request = new XMLHttpRequest();
+        request.open("GET", `http://localhost:8080/organizations/${token}`, true);
+        request.onload = function () {
+            var data = JSON.parse(this.response);        
+            var select = document.getElementById("organisation-select");
+            for(index in data) {
+                select.options[select.options.length] = new Option(data[index], index);
+            }
+        }
+        request.send();
+    }
+
+    function computeStats(){
         document.body.innerHTML +='<img id="ImageLoading" class="images" src="https://zsdevcdnpr1.azureedge.net/online/v1/content/images/loader.gif"/>';
         var request = new XMLHttpRequest();
         var token = getCookie("token")
-        request.open("GET", `https://service-back-dot-cloud-github.appspot.com/organization/ngr-organization/${token}`, true);
+        var select = document.getElementById("organisation-select");
+        var currentValue = select.options[select.selectedIndex].text;
+        request.open("GET", `https://service-back-dot-cloud-github.appspot.com/organization/${currentValue}/${token}`, true);
         request.onload = function () {
             document.body.removeChild(document.getElementById('ImageLoading'));
             var data = JSON.parse(this.response);
