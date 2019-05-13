@@ -90,7 +90,7 @@ function AddSectionWithPicture(NomID, html, htmlImg) {
 
 function setFirstDiv(data) {
     AddSectionWithPicture("First",       
-        `Let's go explore some facts about <b>${data.OrganisationName}</b><br> 
+        `Let's explore some facts about <b>${data.OrganisationName}</b><br> 
         I will be your host for this little travel`,
         `<img src="./Image/Octo.png" style="Height: 300px">`);
 };
