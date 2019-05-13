@@ -51,7 +51,7 @@ function computeStats() {
     if (request.status === 200) {
         console.log("Réponse reçue: %s", request.responseText);
     } else {
-        console.log("Status de la réponse: %d (%s)", request.status, request.statusText);
+        console.log("Statut de la réponse: %d (%s)", request.status, request.statusText);
     }
 };
 
@@ -90,7 +90,7 @@ function AddSectionWithPicture(NomID, html, htmlImg) {
 
 function setFirstDiv(data) {
     AddSectionWithPicture("First",       
-        `Let's go explore some fact about <b>${data.OrganisationName}</b><br> 
+        `Let's go explore some facts about <b>${data.OrganisationName}</b><br> 
         I will be your host for this little travel`,
         `<img src="./Image/Octo.png" style="Height: 300px">`);
 };
@@ -127,7 +127,7 @@ function setStarsDiv(data) {
 function setMostStarsDiv(data) {
     AddSectionWithPicture("Most-Stars",
         `I would like to suggest you to launch your rocket from your project <b>${data.MostStarsName}</b>.<br>
-        his <b>${data.MostStars}</b> stars that's already a very good start.`,
+        his <b>${data.MostStars}</b> stars, that's already a very good start.`,
         `<img src="./Image/Planet.png" style="Height: 200px">`);
 };
 
@@ -140,14 +140,14 @@ function setIssuesDiv(data) {
 
 function setMostIssuesDiv(data) {
     AddSectionWithPicture("Most-Issues",
-        `What's happened with your project <b>${data.MostIssuesName}</b> ?<br>
+        `What happened with your project <b>${data.MostIssuesName}</b> ?<br>
         <b>${data.MostIssues}</b> issues is quite a frigtening number.`,
         `<img src="./Image/OctoFix.png" style="Height: 200px">`);
 };
 
 function setMostCollaboratorsDiv(data) {
     AddSectionWithPicture("Most-Collaborators",       
-        `Wich repository as the most collaborators?<br>
+        `Which repository has the most collaborators?<br>
         It's <b>${data.MostCollaboratorsName}</b> with a total of <b>${data.MostCollaborators}</b> collaborators.<br>
         That's quite amazing!`,
         `<img src="./Image/OctoTeam.png" style="Height: 200px">`);
@@ -158,7 +158,7 @@ function setOldestRepoDiv(data) {
     var today = new Date();
     var diff = Math.floor((Date.UTC(today.getFullYear(), today.getMonth(), today.getDate()) - Date.UTC(d.getFullYear(), d.getMonth(), d.getDate())) / (1000 * 60 * 60 * 24));
     AddSectionWithPicture("Oldest-repo",
-        `Did you remember <b>${data.OldestRepoName}</b> your first project?<br>
+        `Do you remember <b>${data.OldestRepoName}</b> your first project?<br>
         Today that would make <b>${diff}</b> days already. Seems like yesterday for me though.`,
         `<img src="./Image/OctoOld.png" style="Height: 200px">`);
 };
@@ -166,12 +166,12 @@ function setOldestRepoDiv(data) {
 function setMostReleasesDiv(data) {
     AddSectionWithTitlepolicies("Most-Releases",
         `<b>${data.MostReleases}</b> releases for <b>${data.MostReleasesName}</b>.<br>
-        It's become quite hard to follow you`);
+        It's become quite hard to follow you.`);
 }
 
 function setMostWatchersDiv(data) {
     AddSectionWithTitlepolicies("Most-Watchers",
-        `if there is one project that everyone should watch,<br>
+        `If there is one project that everyone should watch,<br>
         I guess it would be <b>${data.MostWatchersName}</b> with his <b>${data.MostWatchers}</b> watchers.`);
 };
 
@@ -183,7 +183,7 @@ function setWatchersDiv(data) {
 
 function setLangagesDiv(data) {
     AddSection("Languages",
-        `<H2>if you are asking wich language is used in your organisation, we got your back:<br></H2>
+        `<H2>If you are asking which language is used in your organisation, we got your back:<br></H2>
         <div class="container">
             <canvas id="LanguagepieChart" style="width:800px; height:200px;" ></canvas>
         </div>`);
