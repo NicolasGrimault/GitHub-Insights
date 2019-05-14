@@ -1,6 +1,7 @@
 
 function disconnect() {
-    delete_cookie("token")
+    delete_cookie("token");
+    location.reload();
 }
 
 function getContentOrganisationSelection() {
@@ -102,7 +103,7 @@ function setlatestRepoDiv(data) {
     AddSectionWithPicture("Latest-repo",
         `So how goes <b>${data.LatestRepoName}</b> your latest project?<br>
         It's been <b>${diff}</b> days already`,
-        ` <img src="./Image/NewBadge.png" style="Height: 200px">`);
+        ` <img src="./Image/Newbadge.png" style="Height: 200px">`);
 };
 
 function setCommitsDiv(data) {
